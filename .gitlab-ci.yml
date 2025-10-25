@@ -1,114 +1,101 @@
-# GitLab CI/CD Pipeline for ImageProcessingLib
-# Multi-platform build and test automation
-
 stages:
   - build
   - test
   - quality
   - package
-  - deploy
 
 variables:
-  CMAKE_BUILD_TYPE: "Release"
-  CMAKE_CXX_STANDARD: "17"
+  BUILD_DIR: build
+  CMAKE_BUILD_TYPE: Release
 
-# Linux Build
-build:linux:
+# Linux build
+build_linux:
   stage: build
-  image: ubuntu:22.04
+  image: ubuntu:20.04
   before_script:
     - apt-get update -qq
-    - apt-get install -y -qq build-essential cmake libsfml-dev
+    - apt-get install -y -qq cmake build-essential libsfml-dev
   script:
-    - mkdir build && cd build
-    - cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE ..
+    - mkdir -p $BUILD_DIR
+    - cd $BUILD_DIR
+    - cmake .. -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE
     - make -j$(nproc)
   artifacts:
     paths:
-      - build/
-    expire_in: 1 hour
-
-# Windows Build
-build:windows:
-  stage: build
+      - $BUILD_DIR/
+    expire_in: 1 week
   tags:
-    - windows
+    - linux
+
+# Windows build
+build_windows:
+  stage: build
+  image: mcr.microsoft.com/windows/servercore:ltsc2019
   before_script:
     - choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
     - choco install sfml
   script:
-    - mkdir build
-    - cd build
-    - cmake -G "Visual Studio 16 2019" -A x64 ..
+    - mkdir $BUILD_DIR
+    - cd $BUILD_DIR
+    - cmake .. -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE
     - cmake --build . --config $CMAKE_BUILD_TYPE
   artifacts:
     paths:
-      - build/
-    expire_in: 1 hour
+      - $BUILD_DIR/
+    expire_in: 1 week
+  tags:
+    - windows
 
-# Unit Tests
-test:linux:
+# Unit tests
+test_linux:
   stage: test
-  image: ubuntu:22.04
-  dependencies:
-    - build:linux
+  image: ubuntu:20.04
   before_script:
     - apt-get update -qq
-    - apt-get install -y -qq build-essential cmake libsfml-dev
+    - apt-get install -y -qq cmake build-essential libsfml-dev libgtest-dev
   script:
-    - cd build
-    - ctest --output-on-failure --verbose
-  coverage: '/TOTAL.*\s+(\d+%)$/'
+    - mkdir -p $BUILD_DIR
+    - cd $BUILD_DIR
+    - cmake .. -DCMAKE_BUILD_TYPE=Debug
+    - make -j$(nproc)
+    - ctest --output-on-failure
+  needs:
+    - build_linux
+  tags:
+    - linux
 
-# Code Quality
-quality:cppcheck:
+# Code quality
+quality_check:
   stage: quality
-  image: ubuntu:22.04
-  script:
+  image: ubuntu:20.04
+  before_script:
     - apt-get update -qq
-    - apt-get install -y -qq cppcheck
-    - cppcheck --enable=all --inconclusive --std=c++17 src/ include/
-  allow_failure: true
-
-quality:clang-format:
-  stage: quality
-  image: ubuntu:22.04
+    - apt-get install -y -qq cppcheck clang-format
   script:
-    - apt-get update -qq
-    - apt-get install -y -qq clang-format
+    - cppcheck --enable=all --std=c++17 src/ include/
     - find src/ include/ -name "*.cpp" -o -name "*.h" | xargs clang-format --dry-run --Werror
-  allow_failure: true
+  tags:
+    - linux
 
 # Package
-package:linux:
+package_linux:
   stage: package
-  image: ubuntu:22.04
-  dependencies:
-    - build:linux
+  image: ubuntu:20.04
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq cmake build-essential libsfml-dev
   script:
-    - cd build
+    - mkdir -p $BUILD_DIR
+    - cd $BUILD_DIR
+    - cmake .. -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE
+    - make -j$(nproc)
     - cpack
   artifacts:
     paths:
-      - build/*.tar.gz
-      - build/*.deb
-    expire_in: 1 week
-
-# Deploy Documentation
-deploy:docs:
-  stage: deploy
-  image: ubuntu:22.04
-  dependencies:
-    - build:linux
-  script:
-    - apt-get update -qq
-    - apt-get install -y -qq doxygen graphviz
-    - cd build
-    - doxygen ../Doxyfile
-  artifacts:
-    paths:
-      - build/html/
-    expire_in: 1 week
-  only:
-    - main
-    - develop
+      - $BUILD_DIR/*.deb
+      - $BUILD_DIR/*.tar.gz
+    expire_in: 1 month
+  needs:
+    - build_linux
+  tags:
+    - linux
