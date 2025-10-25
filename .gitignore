@@ -1,0 +1,84 @@
+# Build directories
+build/
+cmake-build-*/
+
+# Compiled Object files
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Static libraries
+*.a
+*.lib
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Executables
+image_demo
+vesikalik_filtre
+imageprocessing_test
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test results
+Testing/
+CTestTestfile.cmake
+CTestCostData.txt
+LastTest.log
+
+# Coverage reports
+coverage/
+*.gcov
+*.gcno
+*.gcda
+coverage.info*
+
+# Documentation
+doc/
+html/
+latex/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Python cache (for JPEG conversion)
+__pycache__/
+*.pyc
+*.pyo
+
+# Generated images (keep original)
+*.pgm
+*.jpg
+*.jpeg
+*.png
+!vesikalık.jpeg
