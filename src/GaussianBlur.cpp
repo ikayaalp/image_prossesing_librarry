@@ -3,18 +3,16 @@
 #include <algorithm>
 #include <stdexcept>
 
-namespace ImageProcessing {
+namespace GorselIsleme {
 
-// Gaussian blur filtresi oluşturur (sigma ve kernel boyutu ile)
 GaussianBlur::GaussianBlur(double sigma, int kernel_size)
     : sigma_(sigma), kernel_size_(kernel_size) {
     if (sigma <= 0 || kernel_size <= 0 || kernel_size % 2 == 0) {
-        throw std::invalid_argument("Sigma must be positive, kernel size must be positive odd number");
+        throw std::invalid_argument("Gecersiz parametreler");
     }
     generateKernel();
 }
 
-// Görüntüye Gaussian blur filtresini uygular
 std::unique_ptr<Image> GaussianBlur::apply(const Image& input) const {
     auto output = std::make_unique<Image>(input.getWidth(), input.getHeight(), input.getChannels());
     
@@ -43,7 +41,7 @@ std::unique_ptr<Image> GaussianBlur::apply(const Image& input) const {
                 
                 if (weight_sum > 0) {
                     output->at(x, y, channel) = static_cast<Image::Pixel>(
-                        std::round(sum / weight_sum));
+                        std::min(255.0, std::max(0.0, sum / weight_sum)));
                 }
             }
         }
@@ -52,48 +50,26 @@ std::unique_ptr<Image> GaussianBlur::apply(const Image& input) const {
     return output;
 }
 
-// Filtre parametrelerini ayarlar (map ile)
-void GaussianBlur::setParameters(const std::map<std::string, double>& params) {
-    auto sigma_it = params.find("sigma");
-    if (sigma_it != params.end()) {
-        setSigma(sigma_it->second);
-    }
-    
-    auto size_it = params.find("kernel_size");
-    if (size_it != params.end()) {
-        setKernelSize(static_cast<int>(size_it->second));
-    }
-}
-
-// Mevcut filtre parametrelerini döndürür
-std::map<std::string, double> GaussianBlur::getParameters() const {
-    return {{"sigma", sigma_}, {"kernel_size", static_cast<double>(kernel_size_)}};
-}
-
-// Filtrenin bir kopyasını oluşturur (clone pattern)
 std::unique_ptr<Filter> GaussianBlur::clone() const {
     return std::make_unique<GaussianBlur>(*this);
 }
 
-// Sigma değerini ayarlar ve kernel'i yeniden oluşturur
 void GaussianBlur::setSigma(double sigma) {
     if (sigma <= 0) {
-        throw std::invalid_argument("Sigma must be positive");
+        throw std::invalid_argument("Sigma pozitif olmali");
     }
     sigma_ = sigma;
     generateKernel();
 }
 
-// Kernel boyutunu ayarlar ve kernel'i yeniden oluşturur
 void GaussianBlur::setKernelSize(int size) {
     if (size <= 0 || size % 2 == 0) {
-        throw std::invalid_argument("Kernel size must be positive odd number");
+        throw std::invalid_argument("Kernel boyutu tek sayi olmali");
     }
     kernel_size_ = size;
     generateKernel();
 }
 
-// Gaussian kernel'ini oluşturur ve normalize eder
 void GaussianBlur::generateKernel() {
     kernel_.assign(kernel_size_, std::vector<double>(kernel_size_, 0.0));
     
@@ -109,7 +85,6 @@ void GaussianBlur::generateKernel() {
         }
     }
     
-    // Normalize kernel
     for (auto& row : kernel_) {
         for (auto& value : row) {
             value /= sum;
@@ -117,10 +92,9 @@ void GaussianBlur::generateKernel() {
     }
 }
 
-// Gaussian fonksiyonunu hesaplar (2D Gaussian dağılımı)
 double GaussianBlur::gaussianFunction(double x, double y) const {
     double exponent = -(x * x + y * y) / (2.0 * sigma_ * sigma_);
     return std::exp(exponent) / (2.0 * M_PI * sigma_ * sigma_);
 }
 
-} // namespace ImageProcessing
+} // namespace GorselIsleme

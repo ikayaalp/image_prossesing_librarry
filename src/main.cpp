@@ -6,7 +6,7 @@
 #include "ImageViewer.h"
 #include <iostream>
 
-using namespace ImageProcessing;
+using namespace GorselIsleme;
 
 int main() {
     std::cout << "Gorsel Isleme Kutuphanesi Demo\n";
