@@ -2,54 +2,47 @@
 #include "EdgeDetection.h"
 #include "ImageViewer.h"
 #include <iostream>
-#include <memory>
-#include <string>
 
 using namespace ImageProcessing;
 
 int main() {
-    std::cout << "=== Sadece Kenar Bulma Programı ===\n\n";
+    std::cout << "Kenar Bulma Programi\n";
+    std::cout << "===================\n\n";
     
-    // Görüntü görüntüleyici oluştur
     ImageViewer viewer;
     
-    // Kullanıcıdan dosya adı al
-    std::string dosya_adi;
-    std::cout << "Görüntü dosyası adını girin (örn: resim.pgm): ";
-    std::cin >> dosya_adi;
+    // Dosya adi al
+    std::string dosya;
+    std::cout << "Dosya adini girin: ";
+    std::cin >> dosya;
     
-    // Görüntüyü yükle
-    std::cout << "1. Görüntü yükleniyor: " << dosya_adi << "\n";
-    auto my_image = Image::load(dosya_adi);
+    // Gorsel yukle
+    std::cout << "Gorsel yukleniyor...\n";
+    auto gorsel = Image::load(dosya);
     
-    if (!my_image) {
-        std::cout << "   ❌ Dosya bulunamadı! Dosya adını kontrol edin.\n";
+    if (!gorsel) {
+        std::cout << "Dosya bulunamadi!\n";
         return 1;
     }
     
-    std::cout << "   ✓ Görüntü yüklendi (" 
-              << my_image->getWidth() << "x" << my_image->getHeight() << ")\n";
+    std::cout << "Gorsel yuklendi: " << gorsel->getWidth() << "x" << gorsel->getHeight() << "\n";
     
-    // Orijinal görüntüyü göster
-    viewer.imshow("Orijinal Görüntü", *my_image);
-    std::cout << "   ✓ Orijinal görüntü gösterildi\n";
+    // Orijinal goster
+    viewer.imshow("Orijinal", *gorsel);
     
-    // KENAR BULMA
-    std::cout << "\n2. Kenar tespiti yapılıyor...\n";
-    auto edge_filter = std::make_unique<EdgeDetection>();
-    auto kenar_sonucu = edge_filter->apply(*my_image);
+    // Kenar bul
+    std::cout << "Kenar bulunuyor...\n";
+    EdgeDetection kenar_filtresi;
+    auto kenar_sonucu = kenar_filtresi.apply(*gorsel);
     
-    // Kenar sonucunu göster
-    viewer.imshow("Kenar Tespiti Sonucu", *kenar_sonucu);
-    std::cout << "   ✓ Kenar tespiti tamamlandı\n";
+    // Kenar sonucunu goster
+    viewer.imshow("Kenar Sonucu", *kenar_sonucu);
     
-    // Sonucu kaydet
-    kenar_sonucu->save("kenar_sonucu.pgm");
-    std::cout << "   ✓ Sonuç 'kenar_sonucu.pgm' olarak kaydedildi\n";
+    // Kaydet
+    kenar_sonucu->save("kenar.pgm");
+    std::cout << "Sonuc kaydedildi: kenar.pgm\n";
     
-    std::cout << "\n🎉 Kenar bulma tamamlandı! Pencereleri kapatmak için herhangi bir tuşa basın...\n";
-    
-    // Kullanıcı girişini bekle
+    std::cout << "Tamamlandi! Cikmak icin bir tusa basin...\n";
     viewer.waitKey(0);
     
     return 0;
