@@ -27,6 +27,7 @@ public:
     // Dosya islemleri
     bool save(const std::string& filename) const;
     static std::unique_ptr<Image> load(const std::string& filename);
+    static std::unique_ptr<Image> loadJPEG(const std::string& filename);
     
     // Veri erisim
     const PixelVector& getData() const { return data_; }

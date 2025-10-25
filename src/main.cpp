@@ -6,6 +6,7 @@
 #include "ImageViewer.h"
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 using namespace GorselIsleme;
 
@@ -18,12 +19,22 @@ int main() {
     
     // Kullanıcıdan dosya adı al
     std::string dosya_adi;
-    std::cout << "Gorsel dosya adini girin (ornek: resim.pgm): ";
+    std::cout << "Gorsel dosya adini girin (ornek: resim.pgm veya resim.jpg): ";
     std::cin >> dosya_adi;
     
     // Gorsel yukle
     std::cout << "Gorsel yukleniyor: " << dosya_adi << "...\n";
-    gorsel = Image::load(dosya_adi);
+    
+    // Dosya uzantısına göre yükleme yöntemi seç
+    std::string uzanti = dosya_adi.substr(dosya_adi.find_last_of('.') + 1);
+    std::transform(uzanti.begin(), uzanti.end(), uzanti.begin(), ::tolower);
+    
+    if (uzanti == "jpg" || uzanti == "jpeg") {
+        std::cout << "JPEG dosyasi tespit edildi, donusturuluyor...\n";
+        gorsel = Image::loadJPEG(dosya_adi);
+    } else {
+        gorsel = Image::load(dosya_adi);
+    }
     
     if (!gorsel) {
         std::cout << "Dosya bulunamadi! Program sonlandiriliyor.\n";

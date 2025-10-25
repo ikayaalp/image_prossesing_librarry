@@ -2,6 +2,8 @@
 #include <fstream>
 #include <cmath>
 #include <stdexcept>
+#include <cstdlib>
+#include <sstream>
 
 namespace GorselIsleme {
 
@@ -74,6 +76,31 @@ std::unique_ptr<Image> Image::load(const std::string& filename) {
     file.read(reinterpret_cast<char*>(image->data_.data()), image->data_.size());
     
     return file.good() ? std::move(image) : nullptr;
+}
+
+std::unique_ptr<Image> Image::loadJPEG(const std::string& filename) {
+    // Python PIL kullanarak JPEG'i PGM'e çevir
+    std::string temp_pgm = "temp_" + filename.substr(0, filename.find_last_of('.')) + ".pgm";
+    
+    std::stringstream cmd;
+    cmd << "python3 -c \""
+        << "from PIL import Image; "
+        << "img = Image.open('" << filename << "').convert('L'); "
+        << "img.save('" << temp_pgm << "', 'PPM'); "
+        << "print('JPEG converted to PGM')\"";
+    
+    int result = std::system(cmd.str().c_str());
+    if (result != 0) {
+        return nullptr;
+    }
+    
+    // PGM dosyasını yükle
+    auto image = load(temp_pgm);
+    
+    // Geçici dosyayı sil
+    std::remove(temp_pgm.c_str());
+    
+    return image;
 }
 
 bool Image::isValidCoordinate(int x, int y, int channel) const {
