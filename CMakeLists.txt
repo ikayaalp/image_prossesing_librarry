@@ -66,6 +66,10 @@ set_target_properties(imageprocessing PROPERTIES
 add_executable(image_demo src/main.cpp)
 target_link_libraries(image_demo imageprocessing)
 
+# Kenar bulma programı
+add_executable(kenar_bulma src/kenar_bulma.cpp)
+target_link_libraries(kenar_bulma imageprocessing)
+
 # Windows-specific executable settings
 if(WIN32)
     set_target_properties(image_demo PROPERTIES
