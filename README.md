@@ -1,4 +1,4 @@
-# 🖼️ Modern C++ Image Processing Library
+# 🖼️ Modern C++ Görüntü İşleme Kütüphanesi
 
 [![pipeline status](https://gitlab.com/your-username/imageprocessinglib/badges/main/pipeline.svg)](https://gitlab.com/your-username/imageprocessinglib/-/pipelines)
 [![coverage report](https://gitlab.com/your-username/imageprocessinglib/badges/main/coverage.svg)](https://gitlab.com/your-username/imageprocessinglib/-/jobs)
@@ -8,261 +8,282 @@
 [![CMake](https://img.shields.io/badge/CMake-3.16+-green.svg)](https://cmake.org/)
 [![SFML](https://img.shields.io/badge/SFML-2.5+-orange.svg)](https://www.sfml-dev.org/)
 
-A modern C++17/20 image processing library demonstrating advanced OOP principles, polymorphism, inheritance, and STL algorithms.
+Modern C++17/20 özelliklerini kullanan, gelişmiş OOP prensipleri, polimorfizm, kalıtım ve STL algoritmalarını gösteren bir görüntü işleme kütüphanesi.
 
-## 🚀 Features
+## 🚀 Özellikler
 
-### Core Classes (5+ Classes)
-- **`Image`** - Base image class with modern C++ features
-- **`Filter`** - Abstract base class for all filters
-- **`GaussianBlur`** - Gaussian blur filter implementation
-- **`EdgeDetection`** - Sobel edge detection filter
-- **`BrightnessAdjust`** - Brightness adjustment filter
-- **`FilterPipeline`** - Filter composition and chaining
+### Temel Sınıflar (5+ Sınıf)
+- **`Image`** - Modern C++ özellikleri ile temel görüntü sınıfı
+- **`Filter`** - Tüm filtreler için soyut temel sınıf
+- **`GaussianBlur`** - Gaussian bulanıklaştırma filtresi uygulaması
+- **`EdgeDetection`** - Sobel kenar tespiti filtresi
+- **`BrightnessAdjust`** - Parlaklık ayarlama filtresi
+- **`FilterPipeline`** - Filtre kompozisyonu ve zincirleme
+- **`ImageViewer`** - SFML tabanlı görüntü görüntüleyici (OpenCV imshow benzeri)
 
-### Modern C++17/20 Features
-- ✅ **Smart Pointers**: `std::unique_ptr`, `std::shared_ptr`
-- ✅ **STL Containers**: `std::vector`, `std::map`, `std::array`
-- ✅ **STL Algorithms**: `std::transform`, `std::accumulate`, `std::minmax_element`
-- ✅ **Optional Types**: `std::optional` for safe value handling
-- ✅ **Lambda Expressions**: Functional programming support
-- ✅ **Move Semantics**: Efficient resource management
-- ✅ **Constexpr**: Compile-time computations
-- ✅ **Exception Safety**: RAII and exception handling
+### Modern C++17/20 Özellikleri
+- ✅ **Akıllı İşaretçiler**: `std::unique_ptr`, `std::shared_ptr`
+- ✅ **STL Konteynerleri**: `std::vector`, `std::map`, `std::array`
+- ✅ **STL Algoritmaları**: `std::transform`, `std::accumulate`, `std::minmax_element`
+- ✅ **Opsiyonel Tipler**: Güvenli değer işleme için `std::optional`
+- ✅ **Lambda İfadeleri**: Fonksiyonel programlama desteği
+- ✅ **Taşıma Semantiği**: Verimli kaynak yönetimi
+- ✅ **Constexpr**: Derleme zamanı hesaplamaları
+- ✅ **İstisna Güvenliği**: RAII ve istisna işleme
 
-### OOP Principles
-- ✅ **Inheritance**: Abstract base `Filter` class
-- ✅ **Polymorphism**: Virtual functions and dynamic dispatch
-- ✅ **Encapsulation**: Private data members and public interfaces
-- ✅ **Composition**: Filter pipeline pattern
-- ✅ **Virtual Constructor**: Clone pattern implementation
+### OOP Prensipleri
+- ✅ **Kalıtım**: Soyut temel `Filter` sınıfı
+- ✅ **Polimorfizm**: Sanal fonksiyonlar ve dinamik gönderim
+- ✅ **Kapsülleme**: Özel veri üyeleri ve genel arayüzler
+- ✅ **Kompozisyon**: Filtre pipeline deseni
+- ✅ **Sanal Yapıcı**: Clone deseni uygulaması
 
-## 🏗️ Architecture
+## 🏗️ Mimari
 
 ```
 ImageProcessingLib/
-├── src/                    # Source files
-│   ├── Image.cpp          # Core image class
-│   ├── GaussianBlur.cpp  # Gaussian blur filter
-│   ├── EdgeDetection.cpp # Edge detection filter
-│   ├── BrightnessAdjust.cpp # Brightness filter
-│   ├── FilterPipeline.cpp # Filter composition
-│   └── main.cpp          # Demo application
-├── include/               # Header files
+├── src/                    # Kaynak dosyalar
+│   ├── Image.cpp          # Temel görüntü sınıfı
+│   ├── GaussianBlur.cpp   # Gaussian bulanıklaştırma filtresi
+│   ├── EdgeDetection.cpp  # Kenar tespiti filtresi
+│   ├── BrightnessAdjust.cpp # Parlaklık filtresi
+│   ├── FilterPipeline.cpp # Filtre kompozisyonu
+│   ├── ImageViewer.cpp    # SFML görüntü görüntüleyici
+│   └── main.cpp          # Demo uygulaması
+├── include/               # Başlık dosyaları
 │   ├── Image.h
 │   ├── Filter.h
 │   ├── GaussianBlur.h
 │   ├── EdgeDetection.h
 │   ├── BrightnessAdjust.h
-│   └── FilterPipeline.h
-├── tests/                 # Unit tests
+│   ├── FilterPipeline.h
+│   └── ImageViewer.h
+├── tests/                 # Birim testler
 │   ├── test_image.cpp
 │   ├── test_filters.cpp
-│   └── test_pipeline.cpp
-├── CMakeLists.txt         # Build configuration
+│   ├── test_pipeline.cpp
+│   └── test_integration.cpp
+├── CMakeLists.txt         # Derleme konfigürasyonu
 ├── .gitlab-ci.yml         # CI/CD pipeline
-└── README.md              # This file
+└── README.md              # Bu dosya
 ```
 
-## 🔧 Build Requirements
+## 🔧 Derleme Gereksinimleri
 
-### Dependencies
-- **C++17** compatible compiler (GCC 7+, Clang 5+, MSVC 2017+)
+### Bağımlılıklar
+- **C++17** uyumlu derleyici (GCC 7+, Clang 5+, MSVC 2017+)
 - **CMake** 3.16+
-- **Google Test** (for unit testing)
-- **GitLab CI/CD** (for automated builds)
+- **SFML** 2.5+ (görüntü görüntüleme için)
+- **Google Test** (birim testler için)
+- **GitLab CI/CD** (otomatik derlemeler için)
 
-### Supported Platforms
+### Desteklenen Platformlar
 - ✅ **Linux** (Ubuntu 20.04+, CentOS 8+)
 - ✅ **Windows** (Visual Studio 2019+)
 - ✅ **macOS** (Xcode 10+)
 
-## 🚀 Quick Start
+## 🚀 Hızlı Başlangıç
 
-### 1. Clone Repository
+### 1. Repository'yi Klonlayın
 ```bash
-git clone https://gitlab.com/your-username/imageprocessinglib.git
-cd imageprocessinglib
+git clone https://github.com/ikayaalp/image_prossesing_librarry.git
+cd image_prossesing_librarry
 ```
 
-### 2. Build Project
+### 2. Projeyi Derleyin
 ```bash
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
 ```
 
-### 3. Run Demo
+### 3. Demo'yu Çalıştırın
 ```bash
 ./image_demo
 ```
 
-### 4. Run Tests
+### 4. Testleri Çalıştırın
 ```bash
 ctest --output-on-failure
 ```
 
-## 📖 Usage Examples
+## 📖 Kullanım Örnekleri
 
-### Basic Image Operations
+### Temel Görüntü İşlemleri
 ```cpp
 #include "Image.h"
 using namespace ImageProcessing;
 
-// Create image
+// Görüntü oluştur
 Image image(800, 600, 1);
 
-// Set pixel
+// Piksel ayarla
 image.at(100, 100) = 255;
 
-// Get pixel
+// Piksel al
 auto pixel = image.getPixel(100, 100);
 if (pixel) {
-    std::cout << "Pixel value: " << *pixel << std::endl;
+    std::cout << "Piksel değeri: " << *pixel << std::endl;
 }
 
-// Save image
-image.save("output.pgm");
+// Görüntüyü kaydet
+image.save("cikti.pgm");
 ```
 
-### Filter Application
+### Filtre Uygulama
 ```cpp
 #include "GaussianBlur.h"
 #include "EdgeDetection.h"
 
-// Create filter
+// Filtre oluştur
 auto blur_filter = std::make_unique<GaussianBlur>(2.0, 5);
 
-// Apply filter
+// Filtreyi uygula
 auto result = blur_filter->apply(image);
 
-// Edge detection
+// Kenar tespiti
 auto edge_filter = std::make_unique<EdgeDetection>();
 auto edges = edge_filter->apply(image);
 ```
 
-### Filter Pipeline
+### Filtre Pipeline'ı
 ```cpp
 #include "FilterPipeline.h"
 
-// Create pipeline
+// Pipeline oluştur
 FilterPipeline pipeline;
 
-// Add filters
+// Filtreler ekle
 pipeline.addFilter(std::make_unique<GaussianBlur>(1.0, 3));
 pipeline.addFilter(std::make_unique<BrightnessAdjust>(1.5));
 pipeline.addFilter(std::make_unique<EdgeDetection>());
 
-// Apply pipeline
+// Pipeline'ı uygula
 auto result = pipeline.apply(image);
 ```
 
-### Modern C++ Features
+### Görüntü Görüntüleme (SFML)
 ```cpp
-// Lambda functions
+#include "ImageViewer.h"
+
+// Görüntü görüntüleyici oluştur
+ImageViewer viewer;
+
+// Görüntüyü pencerede göster
+viewer.imshow("Orijinal Görüntü", image);
+
+// Kullanıcı girişini bekle
+viewer.waitKey(0);
+```
+
+### Modern C++ Özellikleri
+```cpp
+// Lambda fonksiyonları
 image.applyFunction([](Image::Pixel p) -> Image::Pixel {
     return static_cast<Image::Pixel>(std::min(255, static_cast<int>(p * 1.2)));
 });
 
-// STL algorithms
+// STL algoritmaları
 auto [min_val, max_val] = std::minmax_element(image.getData().begin(), 
                                              image.getData().end());
 
-// Optional types
+// Opsiyonel tipler
 auto pixel = image.getPixel(100, 100);
 if (pixel.has_value()) {
-    std::cout << "Pixel value: " << pixel.value() << std::endl;
+    std::cout << "Piksel değeri: " << pixel.value() << std::endl;
 }
 ```
 
-## 🧪 Testing
+## 🧪 Test Etme
 
-### Unit Tests
-The project includes comprehensive unit tests covering:
-- **Image Class**: Constructor, pixel access, statistics
-- **Filters**: All filter types and parameters
-- **Pipeline**: Filter composition and chaining
-- **Error Handling**: Invalid inputs and edge cases
+### Birim Testleri
+Proje kapsamlı birim testleri içerir:
+- **Image Sınıfı**: Yapıcı, piksel erişimi, istatistikler
+- **Filtreler**: Tüm filtre tipleri ve parametreleri
+- **Pipeline**: Filtre kompozisyonu ve zincirleme
+- **Hata İşleme**: Geçersiz girdiler ve sınır durumları
 
-### Test Coverage
-- ✅ **100%** class coverage
-- ✅ **95%** function coverage
-- ✅ **90%** line coverage
+### Test Kapsamı
+- ✅ **%100** sınıf kapsamı
+- ✅ **%95** fonksiyon kapsamı
+- ✅ **%90** satır kapsamı
+- ✅ **60 test** toplam
 
-### Running Tests
+### Testleri Çalıştırma
 ```bash
-# Run all tests
+# Tüm testleri çalıştır
 ctest --output-on-failure
 
-# Run specific test
+# Belirli testi çalıştır
 ./build/tests/imageprocessing_test --gtest_filter="ImageTest.*"
 
-# Generate coverage report
+# Kapsam raporu oluştur
 make coverage
 ```
 
 ## 🔄 CI/CD Pipeline
 
-### GitLab CI/CD Features
-- ✅ **Automated Builds**: Linux and Windows
-- ✅ **Unit Testing**: Google Test integration
-- ✅ **Code Quality**: Cppcheck and Clang-format
-- ✅ **Documentation**: Doxygen generation
-- ✅ **Packaging**: CPack integration
-- ✅ **Multi-Platform**: Build matrix testing
+### GitLab CI/CD Özellikleri
+- ✅ **Otomatik Derlemeler**: Linux ve Windows
+- ✅ **Birim Testleri**: Google Test entegrasyonu
+- ✅ **Kod Kalitesi**: Cppcheck ve Clang-format
+- ✅ **Dokümantasyon**: Doxygen oluşturma
+- ✅ **Paketleme**: CPack entegrasyonu
+- ✅ **Çoklu Platform**: Derleme matrisi testi
 
-### Pipeline Stages
-1. **Build**: Compile on multiple platforms
-2. **Test**: Run unit tests and coverage
-3. **Quality**: Code analysis and formatting
-4. **Package**: Create distribution packages
-5. **Deploy**: Automated deployment (optional)
+### Pipeline Aşamaları
+1. **Derleme**: Birden fazla platformda derleme
+2. **Test**: Birim testleri ve kapsam çalıştırma
+3. **Kalite**: Kod analizi ve formatlama
+4. **Paketleme**: Dağıtım paketleri oluşturma
+5. **Dağıtım**: Otomatik dağıtım (opsiyonel)
 
-## 📊 Performance
+## 📊 Performans
 
-### Benchmarks
-- **Image Loading**: ~2ms for 1MP image
-- **Gaussian Blur**: ~15ms for 1MP image
-- **Edge Detection**: ~8ms for 1MP image
-- **Pipeline Processing**: ~25ms for 1MP image
+### Kıyaslamalar
+- **Görüntü Yükleme**: 1MP görüntü için ~2ms
+- **Gaussian Bulanıklaştırma**: 1MP görüntü için ~15ms
+- **Kenar Tespiti**: 1MP görüntü için ~8ms
+- **Pipeline İşleme**: 1MP görüntü için ~25ms
 
-### Memory Usage
-- **Base Image**: 1MB for 1MP grayscale
-- **Filter Operations**: 2x image size during processing
-- **Pipeline**: Linear memory growth with filter count
+### Bellek Kullanımı
+- **Temel Görüntü**: 1MP gri tonlama için 1MB
+- **Filtre İşlemleri**: İşleme sırasında 2x görüntü boyutu
+- **Pipeline**: Filtre sayısı ile doğrusal bellek büyümesi
 
-## 🤝 Contributing
+## 🤝 Katkıda Bulunma
 
-### Development Setup
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Create Merge Request
+### Geliştirme Kurulumu
+1. Repository'yi fork edin
+2. Özellik dalı oluşturun: `git checkout -b feature/harika-ozellik`
+3. Değişiklikleri commit edin: `git commit -m 'Harika özellik ekle'`
+4. Dala push edin: `git push origin feature/harika-ozellik`
+5. Merge Request oluşturun
 
-### Code Style
-- Follow C++17/20 best practices
-- Use meaningful variable names
-- Add comprehensive documentation
-- Write unit tests for new features
+### Kod Stili
+- C++17/20 en iyi uygulamalarını takip edin
+- Anlamlı değişken isimleri kullanın
+- Kapsamlı dokümantasyon ekleyin
+- Yeni özellikler için birim testleri yazın
 
-## 📄 License
+## 📄 Lisans
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Bu proje MIT Lisansı altında lisanslanmıştır - detaylar için [LICENSE](LICENSE) dosyasına bakın.
 
-## 🙏 Acknowledgments
+## 🙏 Teşekkürler
 
-- **Google Test** for unit testing framework
-- **CMake** for build system
-- **GitLab** for CI/CD platform
-- **Modern C++** community for best practices
+- **Google Test** birim test framework'ü için
+- **CMake** derleme sistemi için
+- **SFML** görüntü görüntüleme için
+- **GitLab** CI/CD platformu için
+- **Modern C++** topluluğu en iyi uygulamalar için
 
-## 📞 Support
+## 📞 Destek
 
-- **Issues**: [GitLab Issues](https://gitlab.com/your-username/imageprocessinglib/-/issues)
-- **Discussions**: [GitLab Discussions](https://gitlab.com/your-username/imageprocessinglib/-/discussions)
-- **Documentation**: [Project Wiki](https://gitlab.com/your-username/imageprocessinglib/-/wikis)
+- **Sorunlar**: [GitHub Issues](https://github.com/ikayaalp/image_prossesing_librarry/issues)
+- **Tartışmalar**: [GitHub Discussions](https://github.com/ikayaalp/image_prossesing_librarry/discussions)
+- **Dokümantasyon**: [Proje Wiki](https://github.com/ikayaalp/image_prossesing_librarry/wiki)
 
 ---
 
-**Built with ❤️ using Modern C++17/20**
+**Modern C++17/20 ile ❤️ ile yapıldı**
