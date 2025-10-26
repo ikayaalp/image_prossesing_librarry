@@ -12,7 +12,7 @@ public:
     ImageViewer();
     ~ImageViewer();
     
-    void imshow(const std::string& window_name, const Image& image);
+    void goster(const std::string& window_name, const Image& image);
     void waitKey(int delay_ms = 0);
     void destroyWindow(const std::string& window_name);
     void destroyAllWindows();

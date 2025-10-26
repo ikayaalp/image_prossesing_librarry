@@ -10,10 +10,7 @@
 
 using namespace GorselIsleme;
 
-int main() {
-    std::cout << "Gorsel Isleme Kutuphanesi Demo\n";
-    std::cout << "==============================\n\n";
-    
+int main() { 
     ImageViewer viewer;
     std::unique_ptr<Image> gorsel;
     
@@ -22,18 +19,15 @@ int main() {
     std::cout << "Gorsel dosya adini girin (ornek: resim.pgm veya resim.jpg): ";
     std::cin >> dosya_adi;
     
-    // Gorsel yukle
-    std::cout << "Gorsel yukleniyor: " << dosya_adi << "...\n";
-    
-    // Dosya uzantısına göre yükleme yöntemi seç
     std::string uzanti = dosya_adi.substr(dosya_adi.find_last_of('.') + 1);
     std::transform(uzanti.begin(), uzanti.end(), uzanti.begin(), ::tolower);
     
     if (uzanti == "jpg" || uzanti == "jpeg") {
-        std::cout << "JPEG dosyasi tespit edildi, donusturuluyor...\n";
+
         gorsel = Image::loadJPEG(dosya_adi);
     } else {
         gorsel = Image::load(dosya_adi);
+       
     }
     
     if (!gorsel) {
@@ -41,28 +35,27 @@ int main() {
         return 1;
     }
     
-    std::cout << "Gorsel yuklendi: " << gorsel->getWidth() << "x" << gorsel->getHeight() << "\n";
     
     // Orijinal goster
-    viewer.imshow("Orijinal", *gorsel);
+    viewer.goster("Orijinal", *gorsel);
     
     // Bulaniklastirma
     std::cout << "Bulaniklastirma uygulaniyor...\n";
     GaussianBlur bulanik_filtresi(2.0, 5);
     auto bulanik_sonuc = bulanik_filtresi.apply(*gorsel);
-    viewer.imshow("Bulanik", *bulanik_sonuc);
+    viewer.goster("Bulanik", *bulanik_sonuc);
     
     // Kenar bulma
     std::cout << "Kenar bulunuyor...\n";
     EdgeDetection kenar_filtresi;
     auto kenar_sonuc = kenar_filtresi.apply(*gorsel);
-    viewer.imshow("Kenar", *kenar_sonuc);
+    viewer.goster("Kenar", *kenar_sonuc);
     
     // Parlaklik ayari
     std::cout << "Parlaklik ayarlaniyor...\n";
     BrightnessAdjust parlaklik_filtresi(1.5);
     auto parlak_sonuc = parlaklik_filtresi.apply(*gorsel);
-    viewer.imshow("Parlak", *parlak_sonuc);
+    viewer.goster("Parlak", *parlak_sonuc);
     
     // Pipeline
     std::cout << "Pipeline uygulaniyor...\n";
@@ -72,7 +65,7 @@ int main() {
     pipeline.addFilter(std::make_unique<EdgeDetection>());
     
     auto pipeline_sonuc = pipeline.apply(*gorsel);
-    viewer.imshow("Pipeline Sonucu", *pipeline_sonuc);
+    viewer.goster("Pipeline Sonucu", *pipeline_sonuc);
     
     // Kaydet
     std::cout << "Sonuclar kaydediliyor...\n";

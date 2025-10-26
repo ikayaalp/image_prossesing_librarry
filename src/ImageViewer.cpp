@@ -18,7 +18,7 @@ ImageViewer::~ImageViewer() {
     destroyAllWindows();
 }
 
-void ImageViewer::imshow(const std::string& window_name, const Image& image) {
+void ImageViewer::goster(const std::string& window_name, const Image& image) {
     if (image.empty()) {
         std::cerr << "Bos gorsel gosterilemez" << std::endl;
         return;

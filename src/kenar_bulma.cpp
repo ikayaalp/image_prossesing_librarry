@@ -28,7 +28,7 @@ int main() {
     std::cout << "Gorsel yuklendi: " << gorsel->getWidth() << "x" << gorsel->getHeight() << "\n";
     
     // Orijinal goster
-    viewer.imshow("Orijinal", *gorsel);
+    viewer.goster("Orijinal", *gorsel);
     
     // Kenar bul
     std::cout << "Kenar bulunuyor...\n";
@@ -36,7 +36,7 @@ int main() {
     auto kenar_sonucu = kenar_filtresi.apply(*gorsel);
     
     // Kenar sonucunu goster
-    viewer.imshow("Kenar Sonucu", *kenar_sonucu);
+    viewer.goster("Kenar Sonucu", *kenar_sonucu);
     
     // Kaydet
     kenar_sonucu->save("kenar.pgm");
