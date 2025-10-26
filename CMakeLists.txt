@@ -19,7 +19,6 @@ set(SOURCES
     src/FilterPipeline.cpp
     src/ImageViewer.cpp
 )
-
 # Header dosyalar
 set(HEADERS
     include/Image.h
@@ -39,8 +38,7 @@ target_link_libraries(gorselisleme sfml-graphics sfml-window sfml-system)
 add_executable(image_demo src/main.cpp)
 target_link_libraries(image_demo gorselisleme)
 
-add_executable(kenar_bulma src/kenar_bulma.cpp)
-target_link_libraries(kenar_bulma gorselisleme)
+
 
 # Test desteği
 option(BUILD_TESTS "Build tests" ON)
@@ -68,11 +66,3 @@ if(BUILD_TESTS)
     # Test'leri ekle
     add_test(NAME gorselisleme_tests COMMAND gorselisleme_test)
 endif()
-
-# CPack konfigurasyonu
-set(CPACK_PACKAGE_NAME "gorselisleme")
-set(CPACK_PACKAGE_VERSION "1.0.0")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Gorsel Isleme Kutuphanesi")
-set(CPACK_PACKAGE_VENDOR "Ogrenci Projesi")
-
-include(CPack)
