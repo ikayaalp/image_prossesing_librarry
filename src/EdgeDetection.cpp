@@ -67,4 +67,4 @@ double EdgeDetection::applyConvolution(const Image& image, int x, int y,
     return sum;
 }
 
-} // namespace GorselIsleme
+}

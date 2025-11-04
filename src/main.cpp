@@ -38,6 +38,14 @@ int main() {
     
     viewer.goster("Orijinal", *gorsel);
     
+    GaussianBlur bulanik_filtresi(10.0, 9);
+    auto bulanik_sonuc = bulanik_filtresi.apply(*gorsel);
+    viewer.goster("Bulanik", *bulanik_sonuc);
+
+    EdgeDetection kenar_filtresi;
+    auto kenar_sonuc = kenar_filtresi.apply(*bulanik_sonuc);
+    viewer.goster("Kenar", *kenar_sonuc);
+
    BrightnessAdjust parlaklik_filtresi(0.1);
    auto parlak_sonuc = parlaklik_filtresi.apply(*gorsel);
    viewer.goster("Parlak", *parlak_sonuc);
